@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1.0,
+		minimum-scale=1.0, user-scalable=no">
+    <title>审核通过</title>
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/common.css">
+    <script src="../js/rem-config.js"></script>
+    <script src="../js/main.js"></script>
+    <script src="../js/jquery.js"></script>
+</head>
+<body>
+
+   <div class="examine_title">
+        <img src="../images/logo_mini.jpg" alt="">
+    </div>
+    <div class="examine_jindu">
+        <div class="examine_hui">
+            <span>申请中</span>
+            <span>已审核</span>
+            <span>签约</span>
+            <span>还款</span>
+        </div>
+        <div class="examine_y1">
+            <span>申请中</span>
+            <span>已审核</span>
+            <span>签约</span>
+        </div>
+        <div class="yuanquan1">
+            <span>签约</span>
+        </div>
+    </div>
+    <div class="examine_content">
+        <ul>
+            <li>
+                <p><span>姓&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;名：</span>
+                    <span class="infos"></span>
+                </p>
+            </li>
+            <li>
+                <p><span>分期金额：</span>
+                    <span class="infos"></span>
+                </p>
+            </li>
+            <li>
+                <p><span>课&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;程：</span>
+                    <span class="infos"></span>
+                </p>
+            </li>
+            <li>
+                <p><span>还款方式：</span>
+                    <span class="infos"></span>
+                </p>
+            </li>
+            <li>
+                <p><span>手机号码：</span>
+                    <span class="infos"></span>
+                </p>
+            </li>
+            <li>
+                <p><span>还款账户：</span>
+                    <span class="infos"></span>
+                </p>
+            </li>
+        </ul>
+    </div>
+    <div class="examine_close">
+        签约
+    </div>
+</body>
+
+<script>
+        $(function () {
+
+            //页面加载完成显示数据
+
+            $.ajax({
+                url:appPath+"examine",
+                contentType: "application/json;charset=utf-8",
+                dataType:'json',//服务器返回json格式数据
+                type:'GET',//HTTP请求类型
+                success:function(data){
+                    if(data.success){
+                        var _data = data.data;
+                        $(".examine_content").find("li").eq(0).find(".infos").text(_data.name);
+                        $(".examine_content").find("li").eq(1).find(".infos").text(_data.amountSettlements);
+                        $(".examine_content").find("li").eq(2).find(".infos").text(_data.myCourse);
+                        $(".examine_content").find("li").eq(3).find(".infos").text(_data.paymentCycleName);
+                        $(".examine_content").find("li").eq(4).find(".infos").text(_data.phone);
+                        $(".examine_content").find("li").eq(5).find(".infos").text(_data.backBank);
+                    }else {
+                        if(data.loginStatus==false) {
+                            $(".msg").show().text(""+data.errorMessage+"，即将跳转到登录页面~");
+                            setTimeout(function(){
+                                window.location.href="login.html";
+                                $(".msg").hide("slow")
+                            },2000)
+                        }else {
+                            $(".msg").show().text("操作失败！"+data.errorMessage);
+                            setTimeout(function(){
+                                $(".msg").hide("slow")
+                            },2000)
+                        }
+                    }
+                }
+            });
+
+        $('.examine_close').click(function () {
+            $.ajax({
+                url: appPath + "qianyue",
+                contentType: "application/json;charset=utf-8",
+                dataType: 'json',//服务器返回json格式数据
+                type: 'GET',//HTTP请求类型
+                success: function (data) {
+                    if (data.success) {
+                        $('.msg').show().text("签约成功！");
+                        setTimeout(function () {
+                            window.location.href = "qianyue_ok.html";
+//                            window.location.href = "huankuan.html";
+                            $(".msg").hide("slow")
+                        }, 1000)
+                    } else {
+                        if (data.loginStatus == false) {
+                            $(".msg").show().text("" + data.errorMessage + "，即将跳转到登录页面~");
+                            setTimeout(function () {
+                                window.location.href = "login.html";
+                                $(".msg").hide("slow")
+                            }, 2000)
+                        } else {
+                            $(".msg").show().text("操作失败！" + data.errorMessage);
+                            setTimeout(function () {
+                                $(".msg").hide("slow")
+                            }, 2000)
+                        }
+                    }
+                },
+
+            });
+        })
+    })
+</script>
+</html>

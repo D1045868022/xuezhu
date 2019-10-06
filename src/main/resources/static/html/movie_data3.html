@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no">
+		<meta name="format-detection" content="telephone=no">
+		<meta name="x5-orientation" content="portrait">
+		<meta name="x5-fullscreen" content="true">
+		<meta name="full-screen" content="yes">
+		<title>影像资料</title>
+		<link rel="stylesheet" href="../css/style.css">
+		<link rel="stylesheet" href="../css/common.css">
+		<script src="../js/rem-config.js"></script>
+		<script src="../js/main.js"></script>
+		<script src="../js/jquery.js"></script>
+		<style>
+			.head{
+				height:1rem; 
+				width:100%; 
+				position:relative; 
+				z-index:110; 
+				left:0px; 
+				top:10px; 
+			}
+			.head .btn-2{
+				display:block;
+				width:3.7rem;
+				height:1rem;
+				line-height: 1rem;
+				/* border:0.02rem solid red; */
+				position:absolute;
+				top:0px;
+				right:46px;
+			}
+			.head .btn-2 input {
+				width:3.7rem;
+				height:1rem;
+				line-height: 1rem;
+				position: absolute;
+				right: 0px;
+				top: 0;
+				opacity: 0;
+
+			}
+		</style>
+	</head>
+	<body>
+		<!--<div class="tabbar">
+			<a href="mine.html" class="tabbar_r">
+				<img src="../images/x.png">
+			</a>
+			<span>影像资料</span>
+			<a href="" class="tabbar_c">
+				<img src="../images/caidan.png" alt="">
+			</a>
+			<div class="clear"></div>
+		</div>-->
+		<div class="f_banner">
+			<img src="../images/banner.jpg" alt="">
+		</div>
+		<div class="progress_bar">
+			<div class="yellow"></div>
+			<div class="yellow"></div>
+		</div>
+		<div class="mov_content">
+			<ul>
+				<li>
+					<div class="photo" id="preview">
+						<img src="../images/s1.jpg" alt="" class="m_content_img">
+					</div>
+					<div class="head">
+						<a class="btn-2">
+							上传身份证正面
+							<input type="file" accept="image/*" id="upload" name="upload" multiple>
+						</a>
+						<img src="../images/right.png" alt="" class="m_content_jt">
+					</div>
+
+				</li>
+				<li>
+					<div class="photo" id="preview1">
+						<img src="../images/s2.jpg" alt="" class="m_content_img">
+					</div>
+					<div class="head">
+						<a class="btn-2">
+							上传身份证反面
+							<input type="file" accept="image/*" id="upload1" name="upload" multiple>
+						</a>
+						<img src="../images/right.png" alt="" class="m_content_jt">
+					</div>
+				</li>
+
+				<li>
+					<div class="photo" id="preview2">
+						<img src="../images/s3.jpg" alt="" class="m_content_img">
+					</div>
+					<div class="head">
+						<a class="btn-2">
+							手持身份证照片
+							<input type="file" accept="image/*" id="upload2" capture="camera" name="upload" multiple>
+						</a>
+						<img src="../images/right.png" alt="" class="m_content_jt">
+					</div>
+				</li>
+				<li>
+					<div class="photo" id="preview3">
+						<img src="../images/s4.jpg" alt="" class="m_content_img">
+					</div>
+					<div class="head">
+						<a href="http://www.xuezhufuwu.com/mobile" style="width: 3.7rem;height:1rem;line-height:1rem; color:#000;">
+						<!--<a href="http://localhost/mobile" style="width: 3.7rem;height:1rem;line-height:1rem; color:#000;">-->
+								视频认证
+							<img src="../images/right.png" alt="" class="m_content_jt">
+						</a>
+						
+					</div>
+				</li>
+				<li>
+					<div class="photo" id="preview4">
+						<img src="../images/s5.jpg" alt="" class="m_content_img" id="preview4_img" multiple>
+					</div>
+					<div class="head">
+						<a href="face.html">
+							<a class="btn-2">
+								上传培训合同
+								<input type="file" accept="image/*" id="upload4" name="upload4" multiple>
+							</a>
+							<img src="../images/right.png" alt="" class="m_content_jt">
+						</a>
+						
+					</div>
+				</li>
+				<li>
+					<div class="photo" id="preview5">
+						<img src="../images/s6.jpg" alt="" class="m_content_img">
+					</div>
+					<div class="head">
+						<a href="face.html">
+							<a class="btn-2">
+								毕业证照/学信截图
+								<input type="file" accept="image/*" id="upload5" name="upload" multiple>
+							</a>
+							<img src="../images/right.png" alt="" class="m_content_jt">
+						</a>
+						
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="btn_box">
+			<a href="news.html">
+				<div>上一步</div>
+			</a>
+				<div class="next_btn" id="next_btn">下一步</div>
+		</div>
+		<div class="msg"></div>
+		<script>
+			$(function(){
+			    //图片回显
+                $.ajax({
+                    url:appPath+"/import/getImage",
+                    data:"",
+                    dataType:'json',//服务器返回json格式数据
+                    type:'get',//HTTP请求类型xa
+                    contentType:false,
+                    processData:false,	//防止自动转换数据格式
+                    success:function(res){
+                        if(res.success){
+                            var _data = res.data;
+							//身份证正面
+							$("#preview img").attr("src",_data.idPositive);
+							//身份证反面
+                            $("#preview1 img").attr("src",_data.idOtherSide);
+                            //手持
+                            $("#preview2 img").attr("src",_data.phoneIdPicture);
+                            //视频认证
+                            $("#preview3 img").attr("src",_data.videoAuthentication);
+							//   合同
+//							for(var i = 0;i<_data.hetong.length;i++){
+//                                $("#preview4 img").prepend("<img src="+_data.hetong[i]+"/>");
+//							}
+                            $("#preview4 img").attr("src",_data.trainingContract);
+                            //毕业证
+                            $("#preview5 img").attr("src",_data.diploma);
+                        }else {
+                            if(data.loginStatus==false) {
+                                $(".msg").show().text(""+data.errorMessage+"，即将跳转到登录页面~");
+                                setTimeout(function(){
+                                    window.location.href="login.html";
+                                    $(".msg").hide("slow")
+                                },2000)
+                            }else {
+                                $(".msg").show().text("操作失败！"+data.errorMessage);
+                                setTimeout(function(){
+                                    $(".msg").hide("slow")
+                                },2000)
+                            }
+                        }
+                    }
+                });
+
+				//获取摄像头
+				var
+                	upload1 = document.getElementById('upload1'),
+					preview1 = document.getElementById('preview1'),
+                    upload = document.getElementById('upload'),
+                    preview = document.getElementById('preview'),
+
+					upload2 = document.getElementById('upload2'),
+					preview2 = document.getElementById('preview2'),
+
+
+					upload4 = document.getElementById('upload4'),
+					preview4 = document.getElementById('preview4'),
+					
+					upload5 = document.getElementById('upload5'),
+					preview5 = document.getElementById('preview5'),
+					//surebtn = document.getElementById('next_btn'),
+					imgurl = '';
+				 
+				upload.addEventListener('change',function(){handleFile(upload,preview,'idPositive')},false);
+				upload1.addEventListener('change',function(){handleFile(upload1,preview1,'idOtherSide')},false);
+				upload2.addEventListener('change',function(){handleFile(upload2,preview2,'phoneIdPicture')},false);
+				upload4.addEventListener('change',function(){handleFile(upload4,preview4,'trainingContract')},false);
+				upload5.addEventListener('change',function(){handleFile(upload5,preview5,'diploma')},false);
+
+				function handleFile(_upload,_preview,url) {
+                    var formdata=new FormData();
+                    formdata.append('multipartFile',_upload.files[0]);
+                    var $_upload = $(_upload);
+                   	var $_preview = $(_preview);
+                    $.ajax({
+                        url:appPath+"import/"+url,
+                        data:formdata,
+                        dataType:'json',//服务器返回json格式数据
+                        type:'post',//HTTP请求类型
+                        contentType:false,
+                        processData:false,	//防止自动转换数据格式
+                        success:function(res){
+                            if(res.success){
+
+                                /*if(_preview.getAttribute("id") == "preview4"){
+
+                                    if(document.getElementById("preview4_img")){
+                                        _preview.removeChild(document.getElementById("preview4_img"));
+                                    }
+                                    var _img = "<img src="+res.data+"/>";
+                                    $_preview.prepend(_img);
+                                }else{*/
+                                    $_preview.find("img").attr("src",res.data);
+//								}
+                                $('.msg').show().text("图片上传成功");
+                                setTimeout(function(){
+                                    $('.msg').hide('slow')
+                                },1000)
+                            }else {
+                                if(data.loginStatus==false) {
+                                    $(".msg").show().text(""+data.errorMessage+"，即将跳转到登录页面~");
+                                    setTimeout(function(){
+                                        window.location.href="login.html";
+                                        $(".msg").hide("slow")
+                                    },2000)
+                                }else {
+                                    $(".msg").show().text("操作失败！"+data.errorMessage);
+                                    setTimeout(function(){
+                                        $(".msg").hide("slow")
+                                    },2000)
+                                }
+                            }
+                        },
+                    });
+
+                }
+                $('.next_btn').click(function(){
+                    window.location.href="live.html";
+                })
+				//点击获取数据
+				/*$('#next_btn').click(function(){
+					//获取身份证正面
+					var _zheng = $("#preview img").attr("src");
+					//获取身份证反面
+					var _fan = $("#preview1 img").attr("src");
+					//手持身份证
+					var _shouchi = $("#preview2 img").attr("src");
+					var _shouchi = $("#preview4 img").attr("src");
+					/!*var _hetong = $("#preview4 img");
+					//合同
+					var _hetong_arr = new Array();
+					
+					for(var i = 0;i<_hetong.length;i++){
+						_hetong_arr.push(_hetong[i].src);
+					}*!/
+					//毕业证
+					var _biyezheng = $("#preview5 img").attr("src");
+					var _data = {
+						"idPositive":_zheng,
+						"idOtherSide":_fan,
+						"phoneIdPicture":_shouchi,
+						"trainingContract":_hetong_arr,
+						"diploma":_biyezheng
+					}
+					$.ajax({
+						url:appPath+"/import/insertMovie",
+						contentType: "application/json;charset=utf-8",
+						data:JSON.stringify(_data),
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						success:function(res){
+							if(res.success){
+								$('.msg').show().text("成功！1秒后跳转");
+								setTimeout(function(){
+									window.location.href="live.html";
+								},1000)
+							}else{
+								$('.msg').show().text('.失败！原因'+errorCode);
+								setTimeout(function(){
+									$('.msg').hide("slow")
+								},2000)
+							}
+						},
+					});
+					
+					
+					
+                   
+				})*/
+
+
+			})
+		</script>
+
+	</body>
+</html>
